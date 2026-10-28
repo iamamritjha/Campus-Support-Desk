@@ -1,0 +1,24 @@
+{
+  "name": "support-ticket-system",
+  "version": "1.0.0",
+  "description": "A comprehensive, full-stack support ticket management system built with MERN stack.",
+  "scripts": {
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "seed": "npm --prefix backend run seed",
+    "seed:college": "npm --prefix backend run seed:college",
+    "seed:templates": "npm --prefix backend run seed:templates"
+  },
+  "keywords": [
+    "mern",
+    "support-desk",
+    "ticket-management",
+    "react",
+    "express",
+    "mongodb",
+    "socket-io"
+  ],
+  "author": "Hemal Katariya",
+  "license": "MIT"
+}

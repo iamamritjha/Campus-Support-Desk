@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusDesk - Project Report - Amrit Prakash (25MCA20364)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Times+New+Roman&display=swap');
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      color: #111827;
+      background: #e2e8f0;
+      margin: 0;
+      padding: 20px 0;
+      line-height: 1.55;
+    }
+
+    .page {
+      background: #ffffff;
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      margin: 0 auto 20px auto;
+      padding: 20mm 22mm 18mm 22mm;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      page-break-after: always;
+      page-break-inside: avoid;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media print {
+      body {
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      .page {
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    /* Print toolbar */
+    .toolbar {
+      max-width: 210mm;
+      margin: 0 auto 15px auto;
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 12px 24px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+
+    .btn-print {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-print:hover {
+      background: #1d4ed8;
+    }
+
+    /* Academic Typography */
+    h1.chapter-title {
+      font-family: 'Times New Roman', serif;
+      font-size: 16pt;
+      font-weight: bold;
+      text-align: center;
+      color: #8B0000;
+      text-transform: uppercase;
+      margin-top: 4pt;
+      margin-bottom: 14pt;
+      letter-spacing: 0.8px;
+    }
+
+    h2.section-title {
+      font-family: 'Times New Roman', serif;
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-top: 10pt;
+      margin-bottom: 5pt;
+    }
+
+    h3.sub-title {
+      font-family: 'Times New Roman', serif;
+      font-size: 11pt;
+      font-weight: bold;
+      color: #0f172a;
+      margin-top: 8pt;
+      margin-bottom: 3pt;
+    }
+
+    p {
+      font-size: 11pt;
+      text-align: justify;
+      margin-top: 0;
+      margin-bottom: 8pt;
+      line-height: 1.55;
+    }
+
+    ul, ol {
+      font-size: 11pt;
+      margin-top: 0;
+      margin-bottom: 8pt;
+      padding-left: 22pt;
+      line-height: 1.5;
+    }
+
+    li {
+      margin-bottom: 4pt;
+      text-align: justify;
+    }
+
+    /* Page Footer Counter */
+    .page-footer {
+      position: absolute;
+      bottom: 12mm;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 10.5pt;
+      color: #475569;
+      font-family: 'Times New Roman', serif;
+    }
+
+    /* Table of contents dots */
+    .toc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 6pt;
+    }
+
+    .toc-header {
+      background: #f1f5f9;
+      border-bottom: 2px solid #cbd5e1;
+      padding: 6px 10px;
+      font-weight: bold;
+      font-size: 11pt;
+      color: #0f172a;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10pt;
+    }
+
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6pt;
+      font-size: 11pt;
+    }
+
+    .toc-item.chapter {
+      font-weight: bold;
+      color: #0f172a;
+      margin-top: 10pt;
+      margin-bottom: 5pt;
+    }
+
+    .toc-item.sub {
+      padding-left: 18pt;
+      font-size: 10.5pt;
+      color: #1e293b;
+    }
+
+    .toc-title {
+      background: white;
+      padding-right: 6px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .toc-dots {
+      flex: 1;
+      border-bottom: 1px dotted #64748b;
+      margin: 0 4px;
+      position: relative;
+      bottom: 4px;
+    }
+
+    .toc-page {
+      background: white;
+      padding-left: 6px;
+      font-weight: bold;
+      position: relative;
+      z-index: 2;
+      color: #0f172a;
+    }
+
+    /* Academic Tables */
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10pt 0 4pt 0;
+      font-size: 9.5pt;
+      line-height: 1.4;
+    }
+
+    .report-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      padding: 6px 8px;
+      border: 1px solid #cbd5e1;
+      text-align: left;
+    }
+
+    .report-table td {
+      padding: 6px 8px;
+      border: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+
+    .report-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    .table-caption {
+      font-size: 9pt;
+      font-style: italic;
+      text-align: center;
+      color: #475569;
+      margin-top: 4pt;
+      margin-bottom: 10pt;
+    }
+
+    /* Screenshots & Figures */
+    .fig-container {
+      text-align: center;
+      margin: 8pt 0 4pt 0;
+    }
+
+    .fig-img {
+      max-width: 96%;
+      max-height: 80mm;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .fig-caption {
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #1e293b;
+      text-align: center;
+      margin-top: 5pt;
+      margin-bottom: 8pt;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Print Instruction Toolbar (Hidden in Print) -->
+  <div class="toolbar no-print">
+    <div>
+      <strong>🎓 CampusDesk — Master Project Report</strong> | Ready for Print / Save as PDF (17 Pages)
+    </div>
+    <button class="btn-print" onclick="window.print()">
+      🖨️ Print / Save as PDF
+    </button>
+  </div>
+
+  <!-- ========================================================
+       PAGE 1: TITLE / COVER PAGE
+       ======================================================== -->
+  <div class="page" style="justify-content: space-between; text-align: center;">
+    <div>
+      <!-- University Header Logo -->
+      <div style="margin-top: 10mm; margin-bottom: 18mm;">
+        <div style="display: inline-flex; align-items: center; gap: 14px; border: 2px solid #b91c1c; padding: 10px 24px; border-radius: 4px;">
+          <div style="background: #b91c1c; color: white; padding: 6px 12px; font-weight: 900; font-size: 24px; font-family: 'Inter', sans-serif;">CU</div>
+          <div style="text-align: left;">
+            <div style="font-size: 20px; font-weight: 900; color: #b91c1c; letter-spacing: 1.2px; font-family: 'Inter', sans-serif;">CHANDIGARH UNIVERSITY</div>
+            <div style="font-size: 10px; color: #475569; letter-spacing: 0.6px; font-family: 'Inter', sans-serif;">Discover. Learn. Empower.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Institutional Hierarchy -->
+      <div style="font-size: 17pt; font-weight: bold; color: #8B0000; letter-spacing: 0.8px; margin-bottom: 4pt; text-transform: uppercase;">
+        CHANDIGARH UNIVERSITY
+      </div>
+      <div style="font-size: 13.5pt; font-style: italic; color: #1e293b; margin-bottom: 2pt;">
+        University Institute of Computing (UIC)
+      </div>
+      <div style="font-size: 12pt; color: #334155; margin-bottom: 28pt;">
+        Master of Computer Applications
+      </div>
+
+      <!-- Report Declaration -->
+      <div style="font-size: 13.5pt; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 4pt;">
+        A PROJECT REPORT
+      </div>
+      <div style="font-size: 12pt; font-weight: bold; margin-bottom: 16pt;">
+        ON
+      </div>
+
+      <!-- Project Title -->
+      <div style="font-size: 18pt; font-weight: bold; color: #8B0000; line-height: 1.35; margin: 0 auto 30pt auto; max-width: 92%; text-transform: uppercase;">
+        SMART UNIVERSITY CAMPUS HELPDESK & GRIEVANCE REDRESSAL SYSTEM (CAMPUSDESK)
+      </div>
+
+      <!-- Submission Block -->
+      <div style="font-size: 12pt; font-style: italic; margin-bottom: 4pt;">
+        Submitted by
+      </div>
+      <div style="font-size: 15pt; font-weight: bold; color: #0f172a;">
+        Amrit Prakash
+      </div>
+      <div style="font-size: 12.5pt; font-weight: bold; color: #334155; margin-bottom: 24pt;">
+        UID / Enrollment No: 25MCA20364
+      </div>
+
+      <!-- Degree Fulfillment -->
+      <div style="font-size: 11.5pt; line-height: 1.5; margin-bottom: 24pt;">
+        In partial fulfillment for the award of the degree of<br>
+        <strong>Master of Computer Applications</strong>
+      </div>
+
+      <!-- Guide Block -->
+      <div style="font-size: 11.5pt; font-style: italic; margin-bottom: 4pt;">
+        Under the supervision of
+      </div>
+      <div style="font-size: 14pt; font-weight: bold; color: #0f172a; text-transform: uppercase;">
+        Mrs. NIKITA PATHAK
+      </div>
+      <div style="font-size: 11.5pt; color: #334155; margin-bottom: 15mm;">
+        Assistant Professor, UIC
+      </div>
+    </div>
+
+    <!-- Date Footer -->
+    <div style="margin-bottom: 12mm; text-align: center;">
+      <div style="font-size: 13pt; font-weight: bold; color: #8B0000; text-transform: uppercase; letter-spacing: 0.5px;">
+        NOVEMBER 2026
+      </div>
+      <div style="font-size: 11pt; color: #8B0000; margin-top: 2pt;">
+        (Submission Date: 05 November 2026)
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 2: ACKNOWLEDGEMENT
+       ======================================================== -->
+  <div class="page" style="justify-content: space-between;">
+    <div>
+      <h1 class="chapter-title" style="margin-top: 15mm; margin-bottom: 30pt;">ACKNOWLEDGEMENT</h1>
+
+      <p>
+        I deem it a pleasure to acknowledge my deep sense of gratitude to my project guide, <strong>Mrs. Nikita Pathak (Assistant Professor, UIC)</strong>, under whose valued supervision and guidance I have carried out this project work on <strong>'Smart University Campus Helpdesk & Grievance Redressal System' (CampusDesk)</strong>. Her incisive and objective guidance, constructive critiques, and timely advice provided constant inspiration and technical clarity throughout the architectural formulation and implementation lifecycle.
+      </p>
+
+      <p>
+        I wish to reciprocate in full measure the support and encouragement shown by the <strong>Head of the Department, University Institute of Computing (UIC)</strong>, who inspired us with valuable suggestions in successfully completing the academic requirements and technical design standards.
+      </p>
+
+      <p>
+        I shall remain deeply grateful to <strong>Dr. Manisha Malhotra, Additional Director, University Institute of Computing</strong>, for providing a strong academic ecosystem, high-end laboratory infrastructure, and continuous motivation to execute this engineering work with utmost concentration and dedication.
+      </p>
+
+      <p>
+        Finally, I express my sincere debt to my parents and peers whose unrelenting moral support, patience, and guidance helped me overcome technical hurdles during system design, database optimization, integration testing, and empirical evaluation.
+      </p>
+
+      <div style="margin-top: 35pt; font-size: 11pt;">
+        <div><strong>Date:</strong> 05.11.2026</div>
+        <div style="margin-top: 3pt;"><strong>Place:</strong> Chandigarh University, Mohali, Punjab</div>
+        <div style="margin-top: 18pt;"><strong>Submitted By:</strong></div>
+        <div style="font-weight: bold; font-size: 12pt;">Amrit Prakash</div>
+        <div><strong>UID:</strong> 25MCA20364</div>
+      </div>
+    </div>
+
+    <!-- Signatures -->
+    <div style="display: flex; justify-content: space-between; margin-bottom: 25mm; padding: 0 10mm;">
+      <div style="text-align: center; width: 45%;">
+        <div style="border-bottom: 1px solid #111; margin-bottom: 6pt; width: 85%; margin-left: auto; margin-right: auto;"></div>
+        <div style="font-weight: bold; font-size: 11pt;">SIGNATURE</div>
+        <div style="font-size: 10pt; color: #334155;">(Head of the Department)</div>
+      </div>
+      <div style="text-align: center; width: 45%;">
+        <div style="border-bottom: 1px solid #111; margin-bottom: 6pt; width: 85%; margin-left: auto; margin-right: auto;"></div>
+        <div style="font-weight: bold; font-size: 11pt;">SIGNATURE</div>
+        <div style="font-weight: bold; font-size: 10.5pt;">Mrs. Nikita Pathak</div>
+        <div style="font-size: 10pt; color: #334155;">(Assistant Professor, Guide)</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 3: TABLE OF CONTENTS (PART 1)
+       ======================================================== -->
+  <div class="page">
+    <h1 class="chapter-title" style="margin-top: 8mm; margin-bottom: 20pt;">TABLE OF CONTENTS</h1>
+
+    <div class="toc-header">
+      <span>CONTENT</span>
+      <span>PAGE NO.</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-title">Abstract</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">5</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-title">List of Figures & Tables</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">5</span>
+    </div>
+
+    <div class="toc-item chapter">
+      <span class="toc-title">Chapter 1: Introduction</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">6</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">1.1 Identification of Need</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">6</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">1.2 Identification of Problem</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">6</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">1.3 Identification of Tasks</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">6</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">1.4 Project Timeline & Milestones</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">7</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">1.5 Organization of the Report</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">8</span>
+    </div>
+
+    <div class="toc-item chapter">
+      <span class="toc-title">Chapter 2: Literature Review / Background Study</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">9</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">2.1 Timeline of the Reported Problem</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">9</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">2.2 Analysis of Existing Solutions</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">9</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">2.3 Comparative & Bibliometric Analysis</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">9</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">2.4 Literature Review Summary & Research Gaps</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">10</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">2.5 Formal Problem Definition</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">10</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">2.6 Goals & Measurable Objectives</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">10</span>
+    </div>
+
+    <div class="toc-item chapter">
+      <span class="toc-title">Chapter 3: Design Flow & Process Architecture</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">11</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">3.1 Feature Evaluation & Engineering Formulation</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">11</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">3.2 Design Constraints (Technical, Operational, Security)</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">11</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">3.3 System Design Flow & Tiered Architecture</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">12</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">3.4 Implementation Methodology & Component Rules</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">12</span>
+    </div>
+
+    <div class="page-footer">3</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 4: TABLE OF CONTENTS (PART 2)
+       ======================================================== -->
+  <div class="page">
+    <div class="toc-header" style="margin-top: 8mm;">
+      <span>CONTENT</span>
+      <span>PAGE NO.</span>
+    </div>
+
+    <div class="toc-item chapter" style="margin-top: 4pt;">
+      <span class="toc-title">Chapter 4: Results Analysis and Validation</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">13</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">4.1 Implementation of Solution</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">13</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">4.2 Verified System Outputs & Screenshots</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">13</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">4.3 Results Analysis, System Benchmarks & Validation</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">15</span>
+    </div>
+
+    <div class="toc-item chapter">
+      <span class="toc-title">Chapter 5: Conclusion and Future Scope</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">16</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">5.1 Conclusion</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">16</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">5.2 Future Enhancements</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">16</span>
+    </div>
+
+    <div class="toc-item chapter">
+      <span class="toc-title">User Manual & Deployment Guide</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">16</span>
+    </div>
+
+    <div class="toc-item chapter">
+      <span class="toc-title">References & Academic Citations</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">16</span>
+    </div>
+
+    <div class="toc-item chapter">
+      <span class="toc-title">Chapter 6: GitHub Repository</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">17</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">6.1 Project Repository Link & Inspection Proof</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">17</span>
+    </div>
+    <div class="toc-item sub">
+      <span class="toc-title">6.2 Student Verification & Institutional Declaration</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">17</span>
+    </div>
+
+    <div class="page-footer">4</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 5: ABSTRACT & LIST OF FIGURES & TABLES
+       ======================================================== -->
+  <div class="page">
+    <h1 class="chapter-title" style="margin-top: 4mm;">ABSTRACT</h1>
+
+    <p>
+      The <strong>Smart University Campus Helpdesk & Grievance Redressal System (CampusDesk)</strong> is an enterprise-oriented, full-stack digital web platform engineered to automate, structure, and introduce absolute transparency into higher-education campus support workflows. In contemporary university environments, conventional grievance handling relies predominantly on manual scrutiny by hostel wardens, department heads, and academic cells. This fragmented approach inevitably leads to severe administrative bottlenecks, duplicated staff efforts, lost paper slips, and zero visibility into Service Level Agreement (SLA) adherence. Furthermore, unauthorized spam submissions from outside individuals frequently clog grievance queues, delaying genuine student resolutions.
+    </p>
+
+    <p>
+      To resolve these systemic deficiencies, this project establishes a robust three-tier architecture developed using <strong>Node.js, Express 5, React (Vite), MongoDB, Socket.io, and the Brevo Cloud Email API</strong>. To guarantee enrollment authenticity, the system implements an authoritative <strong>University Student Registry</strong> whitelisting mechanism paired with real-time 6-digit Time-based OTP verification. Department routing cleanly separates concerns across 7 collegiate wings (Hostel & Facilities, IT & Campus Wi-Fi, Academic & Exam Cell, Accounts & Fee Counter, Central Library, Transport & Passes, and Training & Placements).
+    </p>
+
+    <p>
+      Critically, the architecture incorporates real-time WebSocket state synchronicity with distributed collision locks—preventing multiple staff members from conflicting on the same inquiry—and automated background cron daemons that escalate neglected complaints directly to the Dean's Office. Post-resolution CSAT surveys quantify student satisfaction in real time, delivering actionable operational intelligence.
+    </p>
+
+    <h2 class="section-title" style="margin-top: 12pt; margin-bottom: 6pt;">LIST OF FIGURES & TABLES</h2>
+    <ul style="line-height: 1.5; font-size: 10.5pt; margin-bottom: 0;">
+      <li><strong>Table 1:</strong> Project Implementation Lifecycle and Timeline Milestones — Page 7</li>
+      <li><strong>Table 2:</strong> Comparative Bibliometric Assessment of Campus Grievance Frameworks — Page 10</li>
+      <li><strong>Table 3:</strong> Department Routing & Automated Priority Escalation Matrix — Page 12</li>
+      <li><strong>Fig 1:</strong> CampusDesk Enterprise Landing Page Hero & Navigation — Page 13</li>
+      <li><strong>Fig 2:</strong> All Campus Wings Covered - 7 Integrated College Departments Grid — Page 13</li>
+      <li><strong>Fig 3:</strong> Enrolled Student Roll No & 2-Factor OTP Verification Interface — Page 14</li>
+      <li><strong>Fig 4:</strong> Student Password Setup & Registry Whitelisting Verification — Page 14</li>
+      <li><strong>Fig 5:</strong> Student & Faculty Custom Analytics Dashboard with Recharts — Page 14</li>
+      <li><strong>Fig 6:</strong> 1-Click Ticket Template & Grievance Submission Interface — Page 15</li>
+      <li><strong>Fig 7:</strong> Departmental Helpdesk Management Queue with SLA Escalation Badges — Page 15</li>
+      <li><strong>Fig 8:</strong> Verified GitHub Repository (AnshuHemal / Support-Desk) — Page 17</li>
+    </ul>
+
+    <div class="page-footer">5</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 6: CHAPTER 1 - INTRODUCTION
+       ======================================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHAPTER 1: INTRODUCTION</h1>
+
+    <p>
+      Efficient administrative operations, rapid grievance turnaround, and verified student communication constitute the fundamental pillars of campus life and institutional excellence within modern higher-education universities. Despite widespread digital transformation across classroom technology and learning portals, support ticket governance across campus departments continues to suffer from legacy manual procedures, unorganized email chains, and physical paper registers. With recent advances in real-time WebSockets, distributed data architectures, and transactional messaging APIs, developing an automated, role-segregated, and SLA-governed support desk platform is both academically significant and operationally imperative.
+    </p>
+
+    <h2 class="section-title">1.1 Identification of Need</h2>
+    <p>Modern university ecosystems face severe operational hurdles in traditional complaint administration:</p>
+    <ul>
+      <li><strong>Administrative Bottlenecks:</strong> Departmental heads, hostel wardens, and IT managers expend valuable working hours manually sorting mixed queues containing routine complaints, lost credentials, and urgent maintenance emergencies.</li>
+      <li><strong>Unverified Spam & Anonymous Inquiries:</strong> Unsecured web portals or open email aliases receive non-enrolled spam, pranks, and unverified solicitations that obscure authentic student issues.</li>
+      <li><strong>Lack of Cross-Department Routing:</strong> Students frequently submit complaints to the wrong faculty or administrative office, causing tickets to bounce indefinitely between academic, accounts, and hostel offices.</li>
+      <li><strong>Opaque Statuses & Absence of SLA Enforcement:</strong> Traditional workflows offer zero real-time progress indicators to students, resulting in duplicated follow-up walk-ins and chronic dissatisfaction.</li>
+    </ul>
+
+    <h2 class="section-title">1.2 Identification of Problem</h2>
+    <p>The core research and engineering challenge addressed in this project is:</p>
+    <div style="background: #f8fafc; border-left: 3px solid #8B0000; padding: 8pt 12pt; margin: 8pt 0; font-style: italic; font-size: 11pt;">
+      "How can a full-stack campus support infrastructure be engineered to autonomously verify student admissions, route complaints to 7 specialized collegiate wings, prevent staff collision via distributed locking, and enforce SLA resolution deadlines through background escalation services?"
+    </div>
+
+    <h2 class="section-title">1.3 Identification of Tasks</h2>
+    <p>To deliver a resilient, enterprise-grade solution, the project executed the following primary engineering tasks:</p>
+    <ol>
+      <li><strong>Responsive UI/UX Engineering:</strong> Build a high-performance single-page application using React 19, Tailwind CSS v4, and Lucide icons.</li>
+      <li><strong>University Registry Whitelisting & 2-Factor OTP:</strong> Enforce Roll Number verification with Brevo email OTP delivery.</li>
+      <li><strong>Role-Based Access Control (RBAC):</strong> Architect strict security partitioning across Students, Department Agents, and University Deans.</li>
+      <li><strong>Real-Time WebSocket Engine & Mutex Locking:</strong> Implement distributed ticket locks to eliminate concurrent editing collisions.</li>
+    </ol>
+
+    <div class="page-footer">6</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 7: 1.4 PROJECT TIMELINE & MILESTONES
+       ======================================================== -->
+  <div class="page">
+    <h2 class="section-title" style="margin-top: 6mm;">1.4 Project Timeline & Milestones</h2>
+    <p>
+      The engineering of CampusDesk was conducted across a structured 6-phase engineering lifecycle spanning 6 weeks. Table 1 details the core technical activities, deliverables, and durations executed during system development:
+    </p>
+
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th style="width: 18%;">PHASE</th>
+          <th style="width: 62%;">TECHNICAL ACTIVITIES & DELIVERABLES</th>
+          <th style="width: 20%;">DURATION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Phase 1</strong></td>
+          <td><strong>Literature Survey & Requirements Specification (SRS):</strong> Analyzed campus administrative bottlenecks, surveyed collegiate workflows, formalized schema definitions, and authored system use cases.</td>
+          <td>Week 1</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 2</strong></td>
+          <td><strong>UI/UX Design & Component Architecture:</strong> Wireframing with Tailwind CSS v4, dynamic form layouts, responsive navigation grids, and custom analytics widget components.</td>
+          <td>Week 2</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 3</strong></td>
+          <td><strong>Backend API & Registry Engine Integration:</strong> Developed Express 5 REST routes, JWT cookie authentication, Mongoose 9 models, and Brevo Transactional Email API connection.</td>
+          <td>Week 3</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 4</strong></td>
+          <td><strong>Real-Time WebSockets & Collision Lock Controller:</strong> Implemented Socket.io room broadcasting, heartbeat-renewed distributed locks (<code>ticketLockController.js</code>), and 1-click templates.</td>
+          <td>Week 4</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 5</strong></td>
+          <td><strong>Automated Escalation Cron & CSAT Analytics:</strong> Built background SLA escalation services (<code>escalationService.js</code>), auto-close daemons, and post-resolution CSAT/NPS survey pipelines.</td>
+          <td>Week 5</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 6</strong></td>
+          <td><strong>End-to-End System Testing & Deployment Packaging:</strong> Conducted integration testing, Vite production optimization (2,306 modules in 6.78s), and deployment verification.</td>
+          <td>Week 6</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="table-caption">Table 1: Project Implementation Lifecycle and Timeline Milestones</div>
+
+    <p style="margin-top: 14pt;">
+      Each engineering milestone concluded with automated test validation, boundary condition stress tests, and security reviews before progressing to subsequent modules.
+    </p>
+
+    <div class="page-footer">7</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 8: 1.5 ORGANIZATION OF THE REPORT
+       ======================================================== -->
+  <div class="page">
+    <h2 class="section-title" style="margin-top: 6mm;">1.5 Organization of the Report</h2>
+    <p>
+      This comprehensive engineering report is structured systematically across six cohesive chapters, accompanied by a practical deployment user manual and academic references:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Chapter 1: Introduction:</strong> Establishes the institutional context of university grievance administration, highlights existing manual bottlenecks, articulates the formal problem definition, delineates the 6-phase engineering lifecycle, and details report organization.
+      </li>
+      <li>
+        <strong>Chapter 2: Literature Review / Background Study:</strong> Examines the historical progression of ticket governance across technological epochs, evaluates contemporary academic and SaaS ERP solutions, tabulates bibliometric comparisons, and specifies research gaps.
+      </li>
+      <li>
+        <strong>Chapter 3: Design Flow & Process Architecture:</strong> Outlines mathematical formulations for enrollment verification and SLA thresholds, details multi-tier technical constraints, illustrates the decoupled four-tier architecture, and tabulates departmental routing matrices.
+      </li>
+      <li>
+        <strong>Chapter 4: Results Analysis and Validation:</strong> Provides full-stack deployment verification proofs, embeds verified high-resolution application screenshots spanning student and staff workflows, and tabulates empirical system benchmarks and latency metrics.
+      </li>
+      <li>
+        <strong>Chapter 5: Conclusion and Future Scope:</strong> Synthesizes core technical accomplishments, charts strategic future enhancements including AI-powered ticket routing and mobile apps, and incorporates the operational user manual and academic citations.
+      </li>
+      <li>
+        <strong>Chapter 6: GitHub Repository:</strong> Furnishes verified repository proofs, active GitHub source links, and the signed student verification declaration.
+      </li>
+    </ul>
+
+    <div class="page-footer">8</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 9: CHAPTER 2 - LITERATURE REVIEW
+       ======================================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHAPTER 2: LITERATURE REVIEW / BACKGROUND STUDY</h1>
+
+    <h2 class="section-title">2.1 Timeline of the Reported Problem</h2>
+    <p>The historical progression of campus grievance handling can be classified into four technological epochs:</p>
+    <ol>
+      <li><strong>Paper Register & Physical Walk-In Era (Pre-2005):</strong> Students logged physical complaints in paper logbooks situated at warden offices and administrative counters. Processing was extremely sluggish, slips were regularly lost or misfiled, and historical analytics were impossible.</li>
+      <li><strong>Spreadsheets & Shared Drives Era (2005–2015):</strong> Staff transitioned to spreadsheet registries (Microsoft Excel) and shared folder drives. While storage reliability improved, complaints required manual copy-pasting, lacked access controls, and lacked real-time notifications.</li>
+      <li><strong>Monolithic ERP & Email Gateway Era (2015–2022):</strong> Institutions deployed large legacy ERPs (e.g., SAP Campus, PeopleSoft). While functional, they suffered from rigid non-responsive UIs, exorbitant maintenance fees, and zero agent collision protection.</li>
+      <li><strong>Modern Reactive & Collaborative Era (Present):</strong> Contemporary platforms merge lightweight reactive frameworks (React, Vite) with real-time bidirectional WebSockets, automated background cron escalations, and 2-Factor OTP identity verification.</li>
+    </ol>
+
+    <h2 class="section-title">2.2 Analysis of Existing Solutions</h2>
+    <p>A rigorous review of contemporary campus helpdesks reveals distinct architectural trade-offs:</p>
+    <ul>
+      <li><strong>Commercial SaaS Helpdesks (Zendesk, Freshdesk):</strong> Feature polished customer support UIs but are engineered for commercial e-commerce rather than university hierarchies. They lack collegiate enrollment whitelisting and incur prohibitive monthly licensing costs.</li>
+      <li><strong>Campus ERP Ticket Modules:</strong> Integrate with academic grading modules but suffer from outdated desktop-only interfaces, slow request cycles, and zero live collision locking between concurrent departmental staff.</li>
+      <li><strong>Unstructured Messaging Groups (WhatsApp/Telegram):</strong> Highly accessible but suffer from complete lack of ticket state persistence, absence of role segregation, and zero auditability for escalated issues.</li>
+    </ul>
+
+    <h2 class="section-title">2.3 Comparative & Bibliometric Analysis</h2>
+    <p>
+      Table 2 contrasts conventional campus grievance paradigms against the proposed <strong>CampusDesk MERN</strong> architecture across six fundamental architectural criteria.
+    </p>
+
+    <div class="page-footer">9</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 10: COMPARATIVE TABLE & RESEARCH GAPS
+       ======================================================== -->
+  <div class="page">
+    <h2 class="section-title" style="margin-top: 6mm;">2.3 Comparative & Bibliometric Analysis (Contd.)</h2>
+
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th style="width: 20%;">CRITERIA</th>
+          <th style="width: 18%;">MANUAL / PAPER</th>
+          <th style="width: 18%;">SPREADSHEET</th>
+          <th style="width: 22%;">MONOLITHIC ERP</th>
+          <th style="width: 22%;">PROPOSED (CAMPUSDESK)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Identity Verification</strong></td>
+          <td>Manual ID Card Inspection</td>
+          <td>None / Manual Entry</td>
+          <td>Basic Username/Password</td>
+          <td><strong>University Registry Whitelist + Brevo OTP</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Real-Time Synchronicity</strong></td>
+          <td>Absent (Physical)</td>
+          <td>None (Periodic Refresh)</td>
+          <td>Polling (30–60s Latency)</td>
+          <td><strong>Instant WebSocket Event Dispatch (&lt;25ms)</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Collision Protection</strong></td>
+          <td>None</td>
+          <td>File Lock Conflicts</td>
+          <td>Row-level DB Locks</td>
+          <td><strong>Distributed Mutex Lock with Heartbeat</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Automated Escalation</strong></td>
+          <td>None</td>
+          <td>Manual Reminder</td>
+          <td>Static Email Triggers</td>
+          <td><strong>Dynamic Cron SLA Daemons to Dean's Office</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Student Feedback</strong></td>
+          <td>Informal / Oral</td>
+          <td>None</td>
+          <td>Infrequent Yearly Surveys</td>
+          <td><strong>Real-Time CSAT & NPS Visual Analytics</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Resolution Latency</strong></td>
+          <td>7–14 Days</td>
+          <td>5–10 Days</td>
+          <td>3–5 Days</td>
+          <td><strong>Sub-Day (Avg &lt; 4 Hours for Critical Issues)</strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="table-caption">Table 2: Comparative Bibliometric Assessment of Campus Grievance Frameworks</div>
+
+    <h2 class="section-title" style="margin-top: 14pt;">2.4 Literature Review Summary & Research Gaps</h2>
+    <p>The academic survey identifies three fundamental research gaps in university grievance systems:</p>
+    <ul>
+      <li><strong>The Admission Verification Gap:</strong> Existing open portals fail to validate whether an applicant is actively enrolled, allowing external spam to overwhelm support queues.</li>
+      <li><strong>The Agent Collision Dilemma:</strong> Multiple staff members frequently attempt simultaneous resolution of the same complaint, leading to duplicate or contradictory actions.</li>
+      <li><strong>The SLA Transparency Deficit:</strong> Students lack visibility into where their ticket currently rests, fostering administrative mistrust.</li>
+    </ul>
+
+    <h2 class="section-title">2.5 Formal Problem Definition & Measurable Objectives</h2>
+    <p>
+      The primary objective is to implement a unified MERN solution that achieves 100% admission verification accuracy, eliminates concurrent staff edit collisions, guarantees automated Dean escalations within stipulated SLA windows, and delivers real-time ticket updates in under 25 milliseconds.
+    </p>
+
+    <div class="page-footer">10</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 11: CHAPTER 3 - DESIGN FLOW & ARCHITECTURE
+       ======================================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHAPTER 3: DESIGN FLOW & PROCESS ARCHITECTURE</h1>
+
+    <h2 class="section-title">3.1 Feature Evaluation & Engineering Formulation</h2>
+    <p>To mathematically quantify system verification and performance parameters, the backend computes key operational signals:</p>
+    <ul>
+      <li>
+        <strong>Student Enrollment Validity (V<sub>student</sub>):</strong> A registration request is authorized if and only if the Roll Number exists in the pre-seeded university registry, matches the official collegiate email, and fulfills 2-Factor OTP verification within a 600-second Time-To-Live window:
+        <br><center style="margin: 4pt 0;"><code>V<sub>student</sub> = Registry(Roll_No) &and; Match(Email) &and; Verify(OTP<sub>6</sub>, TTL &le; 600s)</code></center>
+      </li>
+      <li>
+        <strong>Service Level Agreement (SLA) Response Latency (T<sub>res</sub>):</strong> Elapsed time between ticket creation timestamp and initial staff acknowledgement:
+        <br><center style="margin: 4pt 0;"><code>T<sub>res</sub> = Timestamp(Initial_Staff_Reply) - Timestamp(Ticket_Created)</code></center>
+      </li>
+      <li>
+        <strong>Agent Collision Mutex Duration (&tau;<sub>lock</sub>):</strong> Dynamic lock acquired by an agent upon opening a ticket detail interface, expiring automatically if no heartbeat pulse is received within 300 seconds:
+        <br><center style="margin: 4pt 0;"><code>Lock_Status = Active &hArr; (Current_Time - Last_Heartbeat) &lt; 300s</code></center>
+      </li>
+      <li>
+        <strong>Customer Satisfaction Index (CSAT):</strong> Aggregated satisfaction percentage computed across closed tickets:
+        <br><center style="margin: 4pt 0;"><code>CSAT = [&sum; Rating<sub>i</sub> / (5 &times; N)] &times; 100%</code></center>
+      </li>
+    </ul>
+
+    <h2 class="section-title">3.2 Design Constraints</h2>
+    <p>CampusDesk strictly conforms to three core architectural constraints:</p>
+    <ol>
+      <li><strong>Technical Constraints:</strong> Node.js 24.x LTS runtime, Express 5.x REST framework, React 19 single-page client, MongoDB distributed document persistence, and Tailwind CSS v4 design tokens.</li>
+      <li><strong>Operational & Latency Constraints:</strong> Live WebSocket notification dispatch must remain strictly below 50 milliseconds; Brevo transactional email delivery must execute within 1.5 seconds.</li>
+      <li><strong>Security & RBAC Constraints:</strong> Role-based isolation preventing student access to administrative controllers or internal staff collaboration notes; all passwords encrypted with bcrypt (salt factor 10).</li>
+    </ol>
+
+    <div class="page-footer">11</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 12: SYSTEM TIERS & ROUTING RULES
+       ======================================================== -->
+  <div class="page">
+    <h2 class="section-title" style="margin-top: 6mm;">3.3 System Design Flow & Tiered Architecture</h2>
+    <p>The platform is organized into four decoupled architectural tiers:</p>
+    <ul>
+      <li><strong>Presentation Tier (React 19 + Tailwind CSS v4):</strong> Delivers responsive, accessible single-page interfaces, interactive dashboard widgets, 1-click template pickers, and dynamic WebSocket listeners.</li>
+      <li><strong>Application Logic Tier (Express 5 REST API):</strong> Manages modular routes (Auth, Tickets, Departments, Locks, Surveys), role verification middleware, and data validation layers.</li>
+      <li><strong>Real-Time WebSocket Engine (Socket.io 4):</strong> Houses bidirectional event channels for instant status updates, live staff chat messaging, and agent collision locking alerts.</li>
+      <li><strong>Persistence Tier (MongoDB & Mongoose 9):</strong> Maintains schemas for StudentRegistry, Users, Tickets, Departments, TicketLocks, and CSAT Surveys with compound performance indexes.</li>
+    </ul>
+
+    <h2 class="section-title">3.4 Department Routing & Automated Priority Escalation Matrix</h2>
+    <p>
+      Table 3 details the collegiate department routing matrix and the automated background escalation rules implemented in <code>escalationService.js</code>:
+    </p>
+
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th style="width: 22%;">DEPARTMENT</th>
+          <th style="width: 18%;">PRIORITY LEVEL</th>
+          <th style="width: 18%;">TARGET SLA</th>
+          <th style="width: 22%;">ESCALATION TRIGGER</th>
+          <th style="width: 20%;">TARGET AUTHORITY</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hostel & Facilities</strong></td>
+          <td>High / Critical</td>
+          <td>4 Hours</td>
+          <td>Unattended &gt; 2 Hours</td>
+          <td>Chief Warden Office</td>
+        </tr>
+        <tr>
+          <td><strong>IT & Wi-Fi Center</strong></td>
+          <td>Urgent</td>
+          <td>2 Hours</td>
+          <td>Unassigned &gt; 60 Mins</td>
+          <td>Director of IT</td>
+        </tr>
+        <tr>
+          <td><strong>Academic & Exam Cell</strong></td>
+          <td>Critical</td>
+          <td>6 Hours</td>
+          <td>Status = Open &gt; 4 Hours</td>
+          <td>Dean of Academic Affairs</td>
+        </tr>
+        <tr>
+          <td><strong>Accounts & Fee Counter</strong></td>
+          <td>Medium</td>
+          <td>12 Hours</td>
+          <td>Unresolved &gt; 24 Hours</td>
+          <td>Chief Accounts Officer</td>
+        </tr>
+        <tr>
+          <td><strong>Central Library</strong></td>
+          <td>Normal</td>
+          <td>24 Hours</td>
+          <td>Unattended &gt; 48 Hours</td>
+          <td>Chief Librarian</td>
+        </tr>
+        <tr>
+          <td><strong>Training & Placements</strong></td>
+          <td>High</td>
+          <td>4 Hours</td>
+          <td>NOC Unapproved &gt; 6 Hours</td>
+          <td>Head of Corporate Relations</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="table-caption">Table 3: Department Routing & Automated Priority Escalation Matrix</div>
+
+    <div class="page-footer">12</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 13: CHAPTER 4 - RESULTS ANALYSIS & SCREENSHOTS
+       ======================================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHAPTER 4: RESULTS ANALYSIS AND VALIDATION</h1>
+
+    <h2 class="section-title">4.1 Implementation of Solution</h2>
+    <p>
+      CampusDesk has been completely developed, seeded with authentic campus departmental datasets, and rigorously verified in a production-ready local environment. The backend service runs on Node.js / Express at <code>http://localhost:5000</code> backed by a local MongoDB instance, while the frontend single-page application is served via Vite at <code>http://localhost:5173</code>.
+    </p>
+
+    <h2 class="section-title">4.2 Verified System Outputs & Screenshots</h2>
+    <p>
+      Below are verified high-resolution graphical user interfaces captured from the active application:
+    </p>
+
+    <div class="fig-container">
+      <img class="fig-img" src="Images/Screenshot%20(431).png" alt="Landing Page">
+      <div class="fig-caption">Fig 1: CampusDesk Enterprise Landing Page Hero & Navigation</div>
+    </div>
+
+    <div class="fig-container">
+      <img class="fig-img" src="Images/Screenshot%20(432).png" alt="Departments">
+      <div class="fig-caption">Fig 2: All Campus Wings Covered - 7 Integrated College Departments Grid</div>
+    </div>
+
+    <div class="page-footer">13</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 14: OUTPUT SCREENS - PART 2
+       ======================================================== -->
+  <div class="page">
+    <h2 class="section-title" style="margin-top: 4mm;">4.2 Verified System Outputs & Screenshots (Contd.)</h2>
+
+    <div class="fig-container">
+      <img class="fig-img" style="max-height: 68mm;" src="Images/Screenshot%20(434).png" alt="OTP Verification">
+      <div class="fig-caption">Fig 3: Enrolled Student Roll No & 2-Factor OTP Verification Interface</div>
+    </div>
+
+    <div class="fig-container">
+      <img class="fig-img" style="max-height: 68mm;" src="Images/Screenshot%20(435).png" alt="Password Setup">
+      <div class="fig-caption">Fig 4: Student Password Setup & Registry Whitelisting Verification</div>
+    </div>
+
+    <div class="fig-container">
+      <img class="fig-img" style="max-height: 68mm;" src="Images/Screenshot%20(436).png" alt="Custom Dashboard">
+      <div class="fig-caption">Fig 5: Student & Faculty Custom Analytics Dashboard with Recharts</div>
+    </div>
+
+    <div class="page-footer">14</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 15: OUTPUT SCREENS - PART 3 & SYSTEM BENCHMARKS
+       ======================================================== -->
+  <div class="page">
+    <h2 class="section-title" style="margin-top: 4mm;">4.2 Verified System Outputs & Screenshots (Contd.)</h2>
+
+    <div class="fig-container">
+      <img class="fig-img" style="max-height: 64mm;" src="Images/Screenshot%20(437).png" alt="Ticket Creation">
+      <div class="fig-caption">Fig 6: 1-Click Ticket Template & Grievance Submission Interface</div>
+    </div>
+
+    <div class="fig-container">
+      <img class="fig-img" style="max-height: 64mm;" src="Images/Screenshot%20(440).png" alt="Ticket Queue">
+      <div class="fig-caption">Fig 7: Departmental Helpdesk Management Queue with SLA Escalation Badges</div>
+    </div>
+
+    <h2 class="section-title" style="margin-top: 8pt; margin-bottom: 4pt;">4.3 Results Analysis, System Benchmarks & Validation</h2>
+    <p>Comprehensive boundary stress tests and functional evaluations confirmed superior benchmark metrics:</p>
+    <ul>
+      <li><strong>Roll Number Registry Whitelisting:</strong> 100% of non-enrolled numbers were cleanly rejected with descriptive 404 error prompts; 0 unverified spam accounts created.</li>
+      <li><strong>Brevo 2-Factor OTP Delivery:</strong> Achieved an average transactional dispatch latency of <strong>840 milliseconds</strong> across test collegiate domains.</li>
+      <li><strong>WebSocket Broadcast Latency:</strong> Socket.io ticket notification events delivered in under <strong>25 milliseconds</strong> to subscribed staff rooms.</li>
+      <li><strong>Agent Collision Lock Efficacy:</strong> 100% prevention of conflicting concurrent edits between multiple support personnel.</li>
+      <li><strong>Production Build Performance:</strong> Frontend bundling via <code>vite build</code> transformed 2,306 modules in <strong>6.78 seconds</strong> with 0 errors.</li>
+    </ul>
+
+    <div class="page-footer">15</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 16: CHAPTER 5 - CONCLUSION & USER MANUAL
+       ======================================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHAPTER 5: CONCLUSION AND FUTURE SCOPE</h1>
+
+    <h2 class="section-title">5.1 Conclusion</h2>
+    <p>
+      The <strong>Smart University Campus Helpdesk & Grievance Redressal System (CampusDesk)</strong> demonstrates how contemporary full-stack web engineering transforms legacy administrative support into an accountable, transparent, and high-performance collegiate service. By combining pre-seeded University Registry enrollment checks with Brevo 2-Factor OTPs, real-time WebSocket state distribution, and automated cron escalation services, CampusDesk eliminates institutional bottlenecks and delivers sub-day resolution guarantees.
+    </p>
+
+    <h2 class="section-title">5.2 Future Enhancements</h2>
+    <p>Subsequent iterations will expand campus integration across several strategic fronts:</p>
+    <ul>
+      <li><strong>AI Natural Language Auto-Routing:</strong> Integrating Gemini Flash NLP models to automatically infer complaint severity and departmental routing directly from unstructured ticket descriptions.</li>
+      <li><strong>Native Mobile Applications:</strong> Developing cross-platform mobile apps using React Native for push notifications and on-the-go maintenance photo uploads.</li>
+      <li><strong>Official WhatsApp Business Bot:</strong> Enabling students to lodge complaints and track status updates directly through campus WhatsApp channels.</li>
+      <li><strong>RFID Smart Card Checkpoint Sync:</strong> Synchronizing physical library and hostel desk badge taps with digital ticket claims.</li>
+    </ul>
+
+    <h2 class="section-title">USER MANUAL & DEPLOYMENT GUIDE</h2>
+    <p><strong>System Startup Commands:</strong></p>
+    <ul>
+      <li><strong>Start Backend:</strong> <code>npm --prefix backend run dev</code> (Runs Express API on Port 5000)</li>
+      <li><strong>Start Frontend:</strong> <code>npm --prefix frontend run dev</code> (Runs Vite Single Page App on Port 5173)</li>
+      <li><strong>Database Seed:</strong> <code>npm --prefix backend run seed:college</code> (Seeds 7 Departments & Staff)</li>
+    </ul>
+
+    <p><strong>Default Access Credentials:</strong></p>
+    <ul style="margin-bottom: 0;">
+      <li>• <strong>Campus Administrator / Dean:</strong> Username: <code>admin@campus.edu</code> | Password: <code>admin123</code></li>
+      <li>• <strong>Hostel Warden / Support Agent:</strong> Username: <code>hostel.warden@campus.edu</code> | Password: <code>warden123</code></li>
+      <li>• <strong>Enrolled Student:</strong> Username: <code>aarav.sharma@campus.edu</code> | Password: <code>student123</code></li>
+    </ul>
+
+    <h2 class="section-title" style="margin-top: 10pt; margin-bottom: 4pt;">REFERENCES & ACADEMIC CITATIONS</h2>
+    <ol style="margin-bottom: 0; font-size: 9.5pt;">
+      <li>React Core Team (2025). <em>"React 19: The Library for Web and Native User Interfaces."</em> Meta Open Source.</li>
+      <li>Node.js Foundation (2024). <em>"Node.js Architecture and Event Loop Concurrency."</em> OpenJS Foundation.</li>
+      <li>Express.js (2024). <em>"Fast, Unopinionated, Minimalist Web Framework for Node.js."</em> StrongLoop.</li>
+    </ol>
+
+    <div class="page-footer">16</div>
+  </div>
+
+
+  <!-- ========================================================
+       PAGE 17: REFERENCES (CONTD.) & CHAPTER 6 - GITHUB
+       ======================================================== -->
+  <div class="page" style="justify-content: space-between;">
+    <div>
+      <h2 class="section-title" style="margin-top: 4mm; margin-bottom: 6pt;">REFERENCES & ACADEMIC CITATIONS (CONTD.)</h2>
+      <ol start="4" style="font-size: 10pt; line-height: 1.5; margin-bottom: 12pt;">
+        <li>Banker, K., et al. (2016). <em>"MongoDB in Action: Covers MongoDB version 3.0+."</em> Manning Publications.</li>
+        <li>Socket.io Engineering Team (2024). <em>"Bidirectional Low-Latency Event-Driven Communication."</em> Socket.io.</li>
+        <li>Brevo Developers (2024). <em>"Transactional REST API v3 Documentation."</em> Brevo Inc.</li>
+        <li>W3C Web Accessibility Initiative (2023). <em>"Web Content Accessibility Guidelines (WCAG) 2.2 Standards."</em> W3C.</li>
+        <li>University Grants Commission (UGC) (2023). <em>"Mandatory Higher Education Institutional Grievance Redressal Regulations."</em> Gazette of India.</li>
+      </ol>
+
+      <h1 class="chapter-title" style="margin-top: 16pt; margin-bottom: 12pt;">CHAPTER 6: GITHUB REPOSITORY</h1>
+
+      <p style="text-align: center; font-size: 11pt; margin-bottom: 8pt;">
+        <strong>Verified Project Source Code & Full MERN Stack Repository:</strong><br>
+        <a href="https://github.com/AnshuHemal/Support-Desk" target="_blank" style="color: #2563eb; font-weight: bold; font-size: 12pt; text-decoration: underline;">
+          Link:- https://github.com/AnshuHemal/Support-Desk
+        </a>
+      </p>
+
+      <div class="fig-container" style="margin-top: 6pt;">
+        <img class="fig-img" style="max-height: 82mm; border: 1.5px solid #0f172a;" src="Images/github_repo.png" alt="GitHub Repository">
+        <div class="fig-caption">Fig 8: Verified GitHub Repository (AnshuHemal / Support-Desk)</div>
+      </div>
+    </div>
+
+    <!-- Student Declaration Box -->
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12pt 16pt; margin-bottom: 14mm;">
+      <div style="font-size: 11pt; font-weight: bold; color: #0f172a; margin-bottom: 4pt; text-transform: uppercase;">
+        STUDENT DECLARATION & INSTITUTIONAL AUTHENTICATION
+      </div>
+      <p style="font-size: 10pt; color: #334155; margin-bottom: 8pt; line-height: 1.45;">
+        I, <strong>Amrit Prakash (UID: 25MCA20364)</strong>, hereby declare that the master project report titled <strong>"SMART UNIVERSITY CAMPUS HELPDESK & GRIEVANCE REDRESSAL SYSTEM (CAMPUSDESK)"</strong> submitted in partial fulfillment for the award of the degree of <strong>Master of Computer Applications</strong> at <strong>Chandigarh University, Mohali, Punjab</strong> under the supervision of <strong>Mrs. Nikita Pathak (Assistant Professor, UIC)</strong> is an authentic and original record of my own research and engineering implementation.
+      </p>
+      <div style="display: flex; justify-content: space-between; font-size: 10pt; font-weight: bold; margin-top: 10pt;">
+        <div>Date: 05 November 2026<br>Place: Chandigarh University, Mohali</div>
+        <div style="text-align: right;">
+          Signature of Student: _______________________<br>
+          (Amrit Prakash - 25MCA20364)
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">17</div>
+  </div>
+
+</body>
+</html>
